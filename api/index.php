@@ -1,5 +1,11 @@
 <?php
-    print "<pre>";
-    print_r($_GET);
-    print "</pre>";
+    require_once "fakeapi.php";
+
+    $api = new FakeAPI("api.json");
+    
+    $api->get($_GET["action"], $_GET["filter"]);
+    
+    $api->post($_POST["action"]);
+    
+    $api->response();
 ?>

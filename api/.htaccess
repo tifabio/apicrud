@@ -1,4 +1,4 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([a-z0-9]+)/([a-z0-9]+)/?$ index.php?action=$1&filter=$2 [NC,L]
+RewriteRule ^([^/]*)/?(.*)$ index.php?action=$1&filter=$2 [NC,L]
