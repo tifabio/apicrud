@@ -8,12 +8,14 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     contatos.listView().fields([
         nga.field('nome').isDetailLink(true),
-        nga.field('email')
+        nga.field('email'),
+        nga.field('fone')
     ]);
     
     contatos.creationView().fields([
         nga.field('nome'),
-        nga.field('email')
+        nga.field('email'),
+        nga.field('fone')
     ]);
     
     contatos.editionView().fields(contatos.creationView().fields());

@@ -1,11 +1,84 @@
 <?php
-    require_once "fakeapi.php";
-
-    $api = new FakeAPI("api.json");
+    require_once 'lib/one_framework.php';
+    require_once 'lib/json_db.php';
+    require_once 'model/base.php';
     
-    $api->get($_GET["action"], $_GET["filter"]);
+    // carrega a model se existir, senão usa a base model
+    function load($model) {
+        $path = './model/' . strtolower($model) . '.php';
+        if (file_exists($path)) {
+            require_once $path;
+        } else {
+            $model = 'base';
+        }
+        
+        return $model;
+    }
     
-    $api->post($_POST["action"]);
+    $app = new \OnePHP\App();        
     
-    $api->response();
+    $app->get('/api',function() use ($app) {
+    });
+    
+    $app->get('/api/:action', function($action) use ($app) {
+        // define o nome da model, se não existir usa a base model
+        $entity = ucfirst(load($action));
+        // instancia a model, passando o nome da action (tabela) como parametro
+        $model = new $entity($action);
+        // chama o metodo
+        $response = $model->getAll();
+        // imprime a resposta em JSON
+        $app->JsonResponse($response);
+    });
+    
+    $app->get('/api/:action/:id', function($action, $id) use ($app) {
+        // define o nome da model, se não existir usa a base model
+        $entity = ucfirst(load($action));
+        // instancia a model, passando o nome da action (tabela) como parametro
+        $model = new $entity($action);
+        // chama o metodo
+        $response = $model->getById($id);
+        if(!empty($response)) {
+            $app->JsonResponse($response);
+        } else {
+            $app->JsonResponse('Resource not exists', 404);
+        }
+    });
+    
+    $app->post('/api/:action', function($action) use ($app) {
+        $data = (array)json_decode($app->getRequest()->getBody());
+        // define o nome da model, se não existir usa a base model
+        $entity = ucfirst(load($action));
+        // instancia a model, passando o nome da action (tabela) como parametro
+        $model = new $entity($action);
+        // chama o metodo
+        $response = $model->save($data);
+        // imprime a resposta em JSON
+        $app->JsonResponse($response);
+    });
+    
+    $app->put('/api/:action/:id', function($action, $id) use ($app) {
+        $data = (array)json_decode($app->getRequest()->getBody());
+        // define o nome da model, se não existir usa a base model
+        $entity = ucfirst(load($action));
+        // instancia a model, passando o nome da action (tabela) como parametro
+        $model = new $entity($action);
+        // chama o metodo
+        $response = $model->save($data, $id);
+        // imprime a resposta em JSON
+        $app->JsonResponse($response);
+    });
+    
+    $app->delete('/api/:action/:id', function($action, $id) use ($app) {
+        // define o nome da model, se não existir usa a base model
+        $entity = ucfirst(load($action));
+        // instancia a model, passando o nome da action (tabela) como parametro
+        $model = new $entity($action);
+        // chama o metodo
+        $response = $model->delete($id);
+        // imprime a resposta em JSON
+        $app->JsonResponse($response);
+    });
+    
+    $app->listen();
 ?>

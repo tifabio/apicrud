@@ -1,7 +1,0 @@
-{
-  "contatos": [
-    { "id": 1, "nome": "Fulano da Silva", "email": "fulano@email.com" },
-    { "id": 2, "nome": "Beltrano da Silva", "email": "beltrano@email.com" }
-  ],
-  "login": { "user": "fabio", "pass": "1234" }
-}
