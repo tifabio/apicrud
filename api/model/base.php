@@ -5,6 +5,9 @@ class Base {
     protected $table;
     
     public function __construct($table) {
+        if(!file_exists("json")) {
+            mkdir("json");
+        }
         $this->db = new JsonDB("./json/");
         
         $this->table = $table;
