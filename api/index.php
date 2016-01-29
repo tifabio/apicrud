@@ -26,9 +26,14 @@
         // instancia a model, passando o nome da action (tabela) como parametro
         $model = new $entity($action);
         // chama o metodo
-        $response = $model->getAll();
-        // imprime a resposta em JSON
-        $app->JsonResponse($response);
+        try {
+            $response = $model->getAll();
+            // imprime a resposta em JSON
+            $app->JsonResponse($response);
+        } catch (Exception $e) {
+            // imprime a resposta em JSON
+            $app->JsonResponse('['.$e->getMessage().']', 500);
+        }
     });
     
     $app->get('/api/:action/:id', function($action, $id) use ($app) {
@@ -37,11 +42,13 @@
         // instancia a model, passando o nome da action (tabela) como parametro
         $model = new $entity($action);
         // chama o metodo
-        $response = $model->getById($id);
-        if(!empty($response)) {
+        try {
+            $response = $model->getById($id);
+            // imprime a resposta em JSON
             $app->JsonResponse($response);
-        } else {
-            $app->JsonResponse('Resource not exists', 404);
+        } catch (Exception $e) {
+            // imprime a resposta em JSON
+            $app->JsonResponse('['.$e->getMessage().']', 500);
         }
     });
     
@@ -52,9 +59,14 @@
         // instancia a model, passando o nome da action (tabela) como parametro
         $model = new $entity($action);
         // chama o metodo
-        $response = $model->save($data);
-        // imprime a resposta em JSON
-        $app->JsonResponse($response);
+        try {
+            $response = $model->save($data);
+            // imprime a resposta em JSON
+            $app->JsonResponse($response);
+        } catch (Exception $e) {
+            // imprime a resposta em JSON
+            $app->JsonResponse('['.$e->getMessage().']', 500);
+        }
     });
     
     $app->put('/api/:action/:id', function($action, $id) use ($app) {
@@ -64,9 +76,14 @@
         // instancia a model, passando o nome da action (tabela) como parametro
         $model = new $entity($action);
         // chama o metodo
-        $response = $model->save($data, $id);
-        // imprime a resposta em JSON
-        $app->JsonResponse($response);
+        try {
+            $response = $model->save($data, $id);
+            // imprime a resposta em JSON
+            $app->JsonResponse($response);
+        } catch (Exception $e) {
+            // imprime a resposta em JSON
+            $app->JsonResponse('['.$e->getMessage().']', 500);
+        }
     });
     
     $app->delete('/api/:action/:id', function($action, $id) use ($app) {
@@ -75,9 +92,14 @@
         // instancia a model, passando o nome da action (tabela) como parametro
         $model = new $entity($action);
         // chama o metodo
-        $response = $model->delete($id);
-        // imprime a resposta em JSON
-        $app->JsonResponse($response);
+        try {
+            $response = $model->delete($id);
+            // imprime a resposta em JSON
+            $app->JsonResponse($response);
+        } catch (Exception $e) {
+            // imprime a resposta em JSON
+            $app->JsonResponse('['.$e->getMessage().']', 500);
+        }
     });
     
     $app->listen();

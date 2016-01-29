@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // Straussn's JSON-Databaseclass
 // Handle JSON-Files like a very, very simple DB. Useful for little ajax applications.
