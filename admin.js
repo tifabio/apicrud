@@ -7,16 +7,34 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     var contatos = nga.entity('contatos');
     
     contatos.listView().fields([
-        nga.field('nome').isDetailLink(true),
-        nga.field('email'),
-        nga.field('fone')
-    ]);
-    
-    contatos.creationView().fields([
         nga.field('nome'),
         nga.field('email'),
-        nga.field('fone')
+        nga.field('sexo')
+            .map(function truncate(value) {
+                if (value == "M") return "Masculino";
+                if (value == "F") return "Feminino";
+            })
+            .cssClasses('hidden-xs'),
+        nga.field('data_nascimento','date')
+            .label('Nascimento')
+            .format('dd/MM/yyyy')
+            .cssClasses('hidden-xs')
+    ]).listActions(['show', 'edit', 'delete']);
+    
+    contatos.creationView().fields([
+        nga.field('nome').validation({ required: true}),
+        nga.field('email','email').validation({ required: true}),
+        nga.field('sexo', 'choice').choices([
+            { value: 'M', label: 'Masculino' },
+            { value: 'F', label: 'Feminino' }
+        ]).attributes({ placeholder: 'Selecione' }),
+        nga.field('data_nascimento', 'date')
+            .label('Nascimento')
+            .defaultValue(new Date())
+            .format('dd/MM/yyyy')
     ]);
+    
+    contatos.showView().fields(contatos.creationView().fields());
     
     contatos.editionView().fields(contatos.creationView().fields());
     
