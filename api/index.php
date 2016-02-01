@@ -15,12 +15,37 @@
         return $model;
     }
     
+    function auth() {
+        $response = array(
+                "success" => true,
+                "token" => md5(date(DATE_ATOM))
+            );
+        return $response;
+    }
+    
+    function checkAuth($token) {
+        $response = array("success" => true);
+        
+        if ($token == '') {
+            $response["success"] = false;
+            $response["message"] = "INVALID_TOKEN";
+        }
+        
+        return $response;
+    }
+    
     $app = new \OnePHP\App();        
     
     $app->get('/api',function() use ($app) {
     });
     
     $app->get('/api/:action', function($action) use ($app) {
+        // verifica o Token
+        $auth = checkAuth($app->getRequest()->header("Authorization"));
+        if (!$auth["success"]) {
+            $app->JsonResponse($auth);
+            return;
+        }
         // define o nome da model, se não existir usa a base model
         $entity = ucfirst(load($action));
         // instancia a model, passando o nome da action (tabela) como parametro
@@ -37,6 +62,12 @@
     });
     
     $app->get('/api/:action/:id', function($action, $id) use ($app) {
+        // verifica o Token
+        $auth = checkAuth($app->getRequest()->header("Authorization"));
+        if (!$auth["success"]) {
+            $app->JsonResponse($auth);
+            return;
+        }
         // define o nome da model, se não existir usa a base model
         $entity = ucfirst(load($action));
         // instancia a model, passando o nome da action (tabela) como parametro
@@ -53,6 +84,18 @@
     });
     
     $app->post('/api/:action', function($action) use ($app) {
+        // login
+        if ($action == "auth") {
+            $response = auth();
+            $app->JsonResponse($response);
+            return;
+        }
+        // verifica o Token
+        $auth = checkAuth($app->getRequest()->header("Authorization"));
+        if (!$auth["success"]) {
+            $app->JsonResponse($auth);
+            return;
+        }
         $data = (array)json_decode($app->getRequest()->getBody());
         // define o nome da model, se não existir usa a base model
         $entity = ucfirst(load($action));
@@ -70,6 +113,12 @@
     });
     
     $app->put('/api/:action/:id', function($action, $id) use ($app) {
+        // verifica o Token
+        $auth = checkAuth($app->getRequest()->header("Authorization"));
+        if (!$auth["success"]) {
+            $app->JsonResponse($auth);
+            return;
+        }
         $data = (array)json_decode($app->getRequest()->getBody());
         // define o nome da model, se não existir usa a base model
         $entity = ucfirst(load($action));
@@ -87,6 +136,12 @@
     });
     
     $app->delete('/api/:action/:id', function($action, $id) use ($app) {
+        // verifica o Token
+        $auth = checkAuth($app->getRequest()->header("Authorization"));
+        if (!$auth["success"]) {
+            $app->JsonResponse($auth);
+            return;
+        }
         // define o nome da model, se não existir usa a base model
         $entity = ucfirst(load($action));
         // instancia a model, passando o nome da action (tabela) como parametro

@@ -1,3 +1,4 @@
+<? if(!isset($_POST['token'])) header("location: /login")?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,6 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>CRUD API</title>
         <link rel="stylesheet" href="ng-admin/ng-admin.min.css">
+        <script type="text/javascript">
+            var token = "<?php print $_POST['token']?>";
+        </script>
     </head>
     <body ng-app="myApp">
         <div ui-view></div>

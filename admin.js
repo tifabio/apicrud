@@ -42,3 +42,16 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     nga.configure(admin);
 }]);
+
+myApp.config(['RestangularProvider', function(RestangularProvider) {
+    RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
+        headers['Authorization'] = token;
+        return { headers: headers };
+    });
+    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
+        if (data.success == false && data.message == "INVALID_TOKEN") {
+            location.href = "/login";
+        }
+        return data;
+    });
+}]);
