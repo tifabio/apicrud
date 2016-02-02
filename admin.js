@@ -40,6 +40,13 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.addEntity(contatos);
     
+    var logout = nga.entity('logout').readOnly();
+    
+    admin.menu(nga.menu()
+        .addChild(nga.menu(contatos).icon('<i class="fa fa-user fa-lg"></i>'))
+        .addChild(nga.menu(logout).link('logout').icon('<i class="fa fa-sign-out fa-lg"></i>'))
+    );
+    
     nga.configure(admin);
 }]);
 
@@ -50,8 +57,21 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
     });
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response) {
         if (data.success == false && data.message == "INVALID_TOKEN") {
-            location.href = "/login";
+            window.location.replace("/login");
         }
         return data;
     });
 }]);
+
+myApp.config(['$stateProvider', function ($stateProvider) {
+    $stateProvider.state('logout', {
+        parent: 'main',
+        url: '/logout'
+    });
+}]);
+
+window.onhashchange = function() {
+    if(location.hash == '#/logout') {
+        window.location.replace("/login");
+    }
+}
