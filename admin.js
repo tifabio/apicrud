@@ -44,7 +44,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.menu(nga.menu()
         .addChild(nga.menu(contatos).icon('<i class="fa fa-user fa-lg"></i>'))
-        .addChild(nga.menu(logout).link('logout').icon('<i class="fa fa-sign-out fa-lg"></i>'))
+        .addChild(nga.menu(logout).link('logout').title('Sair').icon('<i class="fa fa-sign-out fa-lg"></i>'))
     );
     
     nga.configure(admin);
@@ -68,6 +68,52 @@ myApp.config(['$stateProvider', function ($stateProvider) {
         parent: 'main',
         url: '/logout'
     });
+}]);
+
+myApp.config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.translations('pt-br', {
+        'BACK': 'Retornar',
+        'DELETE': 'Remover',
+        'CREATE': 'Criar',
+        'EDIT': 'Editar',
+        'EXPORT': 'Exportar',
+        'ADD_FILTER': 'Adicionar filtro',
+        'SEE_RELATED': 'Veja todos relacionados {{ entityName }}',
+        'LIST': '',
+        'SHOW': 'Ver',
+        'SAVE': 'Salvar',
+        'N_SELECTED': '{{ length }} Selecionado',
+        'ARE_YOU_SURE': 'Você tem certeza?',
+        'YES': 'Sim',
+        'NO': 'Não',
+        'FILTER_VALUES': 'Filtrar valores',
+        'CLOSE': 'Fechar',
+        'CLEAR': 'Limpar',
+        'CURRENT': 'Atual',
+        'REMOVE': 'Remover',
+        'ADD_NEW': 'Adicionar novo {{ name }}',
+        'BROWSE': 'Procurar',
+        'N_COMPLETE': '{{ progress }}% Completo',
+        'CREATE_NEW': 'Criar novo',
+        'SUBMIT': 'Enviar',
+        'SAVE_CHANGES': 'Salvar alterações',
+        'BATCH_DELETE_SUCCESS': 'Registros excluídos com sucesso',
+        'DELETE_SUCCESS': 'Registro excluídos com sucesso',
+        'ERROR_MESSAGE': 'Oops, ocorreu um erro (code: {{ status }})',
+        'INVALID_FORM': 'Formulário inválido',
+        'CREATION_SUCCESS': 'Registro criado com sucesso',
+        'EDITION_SUCCESS': 'Alterações salvas com sucesso',
+        'ACTIONS': 'Ações',
+        'PAGINATION': '<strong>{{ begin }}</strong> - <strong>{{ end }}</strong> de <strong>{{ total }}</strong>',
+        'NO_PAGINATION': 'Nenhum Registro Encontrado',
+        'PREVIOUS': '« Anterior',
+        'NEXT': 'Próximo »',
+        'DETAIL': '',
+        'STATE_CHANGE_ERROR': 'Erro de mudança de estado: {{ message }}',
+        'NOT_FOUND': 'Não encontrado',
+        'NOT_FOUND_DETAILS': 'A página que você está procurando não pode ser encontrada',
+    });
+    $translateProvider.preferredLanguage('pt-br');
 }]);
 
 window.onhashchange = function() {

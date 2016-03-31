@@ -41,11 +41,11 @@
     <body ng-app="myAppLogin">
         <div class="container">
             <form class="form-signin" id="form-login" ng-submit="submit()" ng-controller="LoginController" method="POST">
-                <h2>Please sign in</h2>
-                <input type="email" id="inputEmail" ng-model="login.email" name="email" class="form-control" placeholder="Email address" autofocus>
-                <input type="password" id="inputPassword" ng-model="login.password" name="password" class="form-control" placeholder="Password">
+                <h2>Login</h2>
+                <input type="email" id="inputEmail" ng-model="login.email" name="email" class="form-control" placeholder="Email" autofocus>
+                <input type="password" id="inputPassword" ng-model="login.password" name="password" class="form-control" placeholder="Senha">
                 <input type="hidden" id="inputToken" name="token">
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
             </form>
             <script src="/ng-admin/ng-admin.min.js" type="text/javascript"></script>
             <script type="text/javascript">
